@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TikTok-Press V2</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2a2150;--steel:#34393f;--steel2:#4a5058;--amber:#ffc21a;--rust:#ff4d6d;--paper:#fff3d6;--ink:#1d1b17;--glow:#ffd27a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241b48}}
+:root[data-theme="dark"]{--bg:#241b48}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--paper);font-family:"Special Elite","Courier New",monospace;display:flex;flex-direction:column;overflow:hidden;
+background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 2px,transparent 2px 5px)}
+h1{font:900 26px/1 "Big Shoulders Display","Arial Narrow",Impact,sans-serif;letter-spacing:.06em;margin:0}
+.press{position:relative;margin:8px 10px 0;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#4cc3e8,#2b8fc4 60%,#2373a8);border:3px solid #15171a;box-shadow:inset 0 2px 0 #5d646d,0 6px 0 #0d0e10;padding:10px 12px 0}
+.plate{display:flex;justify-content:space-between;align-items:center;background:#2b2358;border:2px solid #15171a;border-radius:3px;padding:6px 10px}
+.plate small{font-size:11px;color:#aab0b7;display:block;margin-top:2px}
+.leds{display:flex;gap:6px}
+.led{width:11px;height:11px;border-radius:50%;background:#4b2a24;box-shadow:inset 0 0 2px #000}
+.press.run .led.a{background:var(--amber);box-shadow:0 0 8px var(--amber);animation:blink .5s steps(2) infinite}
+.press.run .led.b{background:#7be07b;box-shadow:0 0 8px #7be07b}
+@keyframes blink{50%{opacity:.25}}
+.mech{position:relative;height:118px;margin-top:8px;display:flex;justify-content:center}
+.rod{position:absolute;top:0;width:12px;height:70px;background:linear-gradient(90deg,#8d949c,#d5dae0,#8d949c);border:2px solid #15171a;border-radius:2px}
+.rod.l{left:18%}.rod.r{right:18%}
+.piston{position:absolute;top:0;left:12%;right:12%;height:46px;background:linear-gradient(180deg,#ff9ab0,#e8486b);border:3px solid #15171a;border-radius:3px;box-shadow:0 5px 0 #15171a;transform:translateY(0)}
+.piston::after{content:"";position:absolute;inset:8px 14px;background:repeating-linear-gradient(90deg,#15171a 0 3px,transparent 3px 12px);opacity:.6}
+.press.stamp .piston,.press.stamp .rod{animation:stamp .6s ease-in-out}
+@keyframes stamp{0%{transform:translateY(0)}45%{transform:translateY(34px)}60%{transform:translateY(34px)}100%{transform:translateY(0)}}
+.rollers{position:absolute;bottom:0;left:6%;right:6%;height:52px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 4%}
+.roller{width:46px;height:46px;border-radius:50%;border:3px solid #15171a;background:repeating-conic-gradient(#8a9199 0 15deg,#c4cad0 15deg 30deg);box-shadow:inset 0 0 0 7px #3c4147,inset 0 0 0 9px #15171a}
+.press.run .roller{animation:spin .9s linear infinite}
+.press.run .roller.rv{animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.slot{height:16px;background:#050505;border:3px solid #15171a;border-top:0;margin:0 -12px;box-shadow:inset 0 6px 6px #000;position:relative;z-index:3}
+.slot::after{content:"";position:absolute;left:6%;right:6%;top:0;height:3px;background:var(--glow);opacity:0;box-shadow:0 0 10px var(--glow)}
+.press.run .slot::after{opacity:.85}
+.tape{height:8px;margin:0 -12px;background:repeating-linear-gradient(135deg,var(--amber) 0 10px,#15171a 10px 20px)}
+.feed{position:relative;flex:1;min-height:0;margin:0 10px;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding-top:0;
+background:linear-gradient(180deg,rgba(0,0,0,.55),transparent 40px),#1d1740;border:3px solid #15171a;border-top:0}
+.tw{position:relative;width:100%;flex:none;height:0;overflow:hidden;transition:height var(--d,3s) linear,opacity 1s}
+.tw.out{opacity:0}
+.tw.gone{transition:height .8s ease;height:0!important}
+.t{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:88%;background:var(--paper);color:var(--ink);display:flex;align-items:center;gap:12px;padding:10px 12px;
+border-left:2px dashed #b9b19b;border-right:2px dashed #b9b19b;border-bottom:2px solid #cfc7b0;box-shadow:0 2px 6px rgba(0,0,0,.5)}
+.t.big{width:100%;min-height:200px;padding:30px 16px 24px;gap:16px;background:linear-gradient(180deg,#fff8e0,#ffe9a8);border-color:#c79a3a}
+.t.big::before{content:"";position:absolute;left:0;right:0;top:0;height:12px;background:repeating-linear-gradient(90deg,#ff4d6d 0 16px,#ffc21a 16px 32px,#2bb7e8 32px 48px,#8e5fd6 48px 64px)}
+.av{flex:none;width:58px;height:58px;border-radius:50%;border:3px solid var(--ink);overflow:hidden;display:grid;place-items:center;font:900 24px "Big Shoulders Display",Impact,sans-serif;color:#fff}
+.big .av{width:112px;height:112px;font-size:44px;border-width:4px}
+.av img{width:100%;height:100%;object-fit:cover}
+.tx{min-width:0;flex:1}
+.pseudo{font:900 20px/1.05 "Big Shoulders Display",Impact,sans-serif;letter-spacing:.03em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.big .pseudo{font-size:36px}
+.big .gift{font-size:19px;margin-top:6px}
+.big .thx{font-size:14px;margin-top:8px}
+.gift{font-size:14px;margin-top:3px}
+.thx{font-size:12px;color:#5b5545;margin-top:4px}
+.no{position:absolute;right:8px;top:6px;font-size:10px;color:#8b8368}
+.ctl{padding:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#2b2358;border-top:3px solid #15171a}
+.ctl button,.ctl label{font:700 16px/1.1 "Big Shoulders Display","Arial Narrow",sans-serif;letter-spacing:.04em;color:var(--paper);background:linear-gradient(180deg,#4cc3e8,#2b8fc4);border:2px solid #15171a;border-radius:4px;padding:10px 4px;box-shadow:0 3px 0 #0d0e10;text-align:center}
+.ctl button:active{transform:translateY(3px);box-shadow:none}
+.ctl .wide{grid-column:1/-1;display:flex;gap:8px;align-items:center;justify-content:space-between;font-size:14px}
+.ctl select{background:#15171a;color:var(--paper);border:1px solid #666;padding:4px;font:inherit}
+.ctl .on{background:linear-gradient(180deg,var(--rust),#c42a4a)}
+.ctl [data-g=rose]{background:linear-gradient(180deg,#ff7a95,#e0405f)}
+.ctl [data-g=coeur]{background:linear-gradient(180deg,#ffa05a,#e8702a)}
+.ctl [data-g=donut]{background:linear-gradient(180deg,#ffe066,#f0a800);color:#2b2358}
+body.live .ctl{display:none}
+@media (prefers-reduced-motion:reduce){.press.run .roller{animation-duration:2.5s}}
+</style>
+</head>
+<body>
+<div class="press" id="press">
+  <div class="plate"><div><h1>TIKTOK-PRESS</h1><small>Presse à tickets · modèle V2</small></div><div class="leds"><i class="led a"></i><i class="led b"></i></div></div>
+  <div class="mech"><div class="rod l"></div><div class="rod r"></div><div class="piston"></div>
+    <div class="rollers"><i class="roller"></i><i class="roller rv"></i></div></div>
+  <div class="slot"></div><div class="tape"></div>
+</div>
+<div class="feed" id="feed"></div>
+<div class="ctl">
+  <button data-g="rose">🌹 Rose</button>
+  <button data-g="coeur">❤️ Cœur du jour</button>
+  <button data-g="donut">🍩 Donut</button>
+  <div class="wide"><label style="all:unset">Quantité
+    <select id="qty"><option>1</option><option>3</option><option>10</option></select></label>
+    <button id="auto" style="flex:1">Démo automatique</button></div>
+</div>
+<script>
+(function(){
+var GIFTS={rose:{nom:"Rose",ico:"🌹",big:false},coeur:{nom:"Cœur du jour",ico:"❤️",big:false},donut:{nom:"Donut",ico:"🍩",big:true}};
+var feed=document.getElementById("feed"),press=document.getElementById("press"),
+queue=[],busy=false,seen={},count=0;
+var PSEUDOS=["@lea.rose","@maxime_75","@la_petite_mouette","@dj_croissant","@sophie.b","@tonton_gaston","@nina_music","@alex.lyon"];
+var COLS=["#ff4d6d","#2b8fc4","#8e5fd6","#2fb36b","#f08a1a","#d6489b"];
+function color(s){var h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return COLS[Math.abs(h)%COLS.length]}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+
+/* Point d’entrée du futur connecteur TikTok :
+   TikTokPress.imprimer({eventId, pseudo, avatar, cadeau:"rose"|"coeur"|"donut", quantite}) */
+function imprimer(ev){
+  if(ev.eventId){if(seen[ev.eventId])return;seen[ev.eventId]=1}
+  if(!GIFTS[ev.cadeau])return;
+  var q=Math.max(1,ev.quantite||1);
+  for(var i=0;i<q;i++)queue.push({pseudo:ev.pseudo||"@spectateur",avatar:ev.avatar||"",cadeau:ev.cadeau});
+  pump();
+}
+async function pump(){
+  if(busy)return;busy=true;
+  while(queue.length){await printOne(queue.shift())}
+  press.classList.remove("run");busy=false;
+}
+async function printOne(e){
+  var g=GIFTS[e.cadeau],dur=g.big?6000:3000;
+  press.classList.add("run","stamp");
+  await sleep(650);press.classList.remove("stamp");
+  count++;
+  var tw=document.createElement("div");tw.className="tw";tw.style.setProperty("--d",dur+"ms");
+  var ini=esc(e.pseudo.replace("@","").charAt(0).toUpperCase());
+  var av='<div class="av" style="background:'+color(e.pseudo)+'">'+ini+'</div>';
+  tw.innerHTML='<div class="t'+(g.big?" big":"")+'">'+av+'<div class="tx"><div class="pseudo">'+esc(e.pseudo)+'</div><div class="gift">'+g.ico+" "+(g.big?"Grand ticket · ":"")+g.nom+'</div><div class="thx">'+(g.big?"Merci infiniment pour ce Donut !":"Merci pour ton cadeau !")+'</div></div><span class="no">n° '+String(count).padStart(4,"0")+'</span></div>';
+  var t=tw.firstChild;
+  if(e.avatar){var im=new Image();im.alt="";im.referrerPolicy="no-referrer";im.onload=function(){var a=t.querySelector(".av");a.textContent="";a.appendChild(im)};im.src=e.avatar}
+  feed.insertBefore(tw,feed.firstChild);
+  var h=t.offsetHeight;
+  void tw.offsetHeight;
+  tw.style.height=h+"px";
+  await sleep(dur+300);
+  while(feed.children.length>6)feed.removeChild(feed.lastChild);
+  setTimeout(function(){tw.classList.add("out");setTimeout(function(){tw.classList.add("gone");setTimeout(function(){tw.remove()},850)},1000)},16000);
+}
+function rnd(a){return a[Math.floor(Math.random()*a.length)]}
+var btns=document.querySelectorAll("[data-g]");
+for(var i=0;i<btns.length;i++)btns[i].onclick=function(){
+  imprimer({pseudo:rnd(PSEUDOS),cadeau:this.getAttribute("data-g"),quantite:+document.getElementById("qty").value})};
+var timer=null,au=document.getElementById("auto");
+au.onclick=function(){
+  if(timer){clearInterval(timer);timer=null;au.classList.remove("on");au.textContent="Démo automatique";return}
+  au.classList.add("on");au.textContent="Arrêter la démo";
+  var go=function(){if(queue.length<3)imprimer({pseudo:rnd(PSEUDOS),cadeau:rnd(["rose","rose","coeur","donut"]),quantite:Math.random()<.2?3:1})};
+  go();timer=setInterval(go,4500)};
+if(location.search.indexOf("live")>-1)document.body.classList.add("live");
+try{var es=new EventSource("events");es.onmessage=function(m){try{imprimer(JSON.parse(m.data))}catch(e){}}}catch(e){}
+window.TikTokPress={imprimer:imprimer};
+})();
+</script>
+</body>
+</html>
