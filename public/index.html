@@ -41,7 +41,8 @@ h1{font:900 26px/1 "Big Shoulders Display","Arial Narrow",Impact,sans-serif;lett
 .press.run .roller{animation:spin .9s linear infinite}
 .press.run .roller.rv{animation-direction:reverse}
 @keyframes spin{to{transform:rotate(360deg)}}
-.slot{height:16px;background:#050505;border:3px solid #15171a;border-top:0;margin:0 -12px;box-shadow:inset 0 6px 6px #000;position:relative;z-index:3}
+.base{height:14px;margin:0 -12px;background:linear-gradient(180deg,#5fd0f0,#2b8fc4);border-top:3px solid #15171a;box-shadow:inset 0 2px 0 rgba(255,255,255,.35)}
+.slot{height:16px;background:#14162a;border:3px solid #15171a;border-top:0;margin:0 -12px;box-shadow:inset 0 6px 6px #000;position:relative;z-index:3}
 .slot::after{content:"";position:absolute;left:6%;right:6%;top:0;height:3px;background:var(--glow);opacity:0;box-shadow:0 0 10px var(--glow)}
 .press.run .slot::after{opacity:.85}
 .tape{height:8px;margin:0 -12px;background:repeating-linear-gradient(135deg,var(--amber) 0 10px,#15171a 10px 20px)}
@@ -58,7 +59,7 @@ border-left:2px dashed #b9b19b;border-right:2px dashed #b9b19b;border-bottom:2px
 .big .av{width:112px;height:112px;font-size:44px;border-width:4px}
 .av img{width:100%;height:100%;object-fit:cover}
 .tx{min-width:0;flex:1}
-.pseudo{font:900 20px/1.05 "Big Shoulders Display",Impact,sans-serif;letter-spacing:.03em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pseudo{font:900 20px/1.05 "Big Shoulders Display",Impact,sans-serif;letter-spacing:.03em;overflow-wrap:anywhere}
 .big .pseudo{font-size:36px}
 .big .gift{font-size:19px;margin-top:6px}
 .big .thx{font-size:14px;margin-top:8px}
@@ -76,12 +77,12 @@ border-left:2px dashed #b9b19b;border-right:2px dashed #b9b19b;border-bottom:2px
 .ctl [data-g=donut]{background:linear-gradient(180deg,#ffe066,#f0a800);color:#2b2358}
 body.live .ctl{display:none}
 
-html{background:transparent}
-body.live{background:transparent;background-image:none}
+html{background:var(--bg)}
+html.transp,html.transp body{background:transparent!important;background-image:none!important}
 /* Cadre de conception 390x844 (écran de téléphone), mis à l'échelle pour tenir dans n'importe quelle fenêtre */
 .cadre{position:absolute;left:50%;top:50%;width:390px;height:844px;transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:center center;display:flex;flex-direction:column;background:var(--bg);background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 2px,transparent 2px 5px);overflow:hidden}
-body.live .cadre{background:transparent;background-image:none}
-body.live .feed{background:transparent;border-color:transparent}
+html.transp .cadre{background:transparent;background-image:none}
+html.transp .feed{background:transparent;border-color:transparent}
 @media (prefers-reduced-motion:reduce){.press.run .roller{animation-duration:2.5s}}
 </style>
 </head>
@@ -92,7 +93,7 @@ body.live .feed{background:transparent;border-color:transparent}
   <div class="menu"><div><span class="ic">🌹❤️</span><span><b>Petit ticket</b>Rose ou Cœur du jour</span></div><div class="gd"><span class="ic">🍩</span><span><b>Grand ticket</b>Donut</span></div></div>
   <div class="mech"><div class="rod l"></div><div class="rod r"></div><div class="piston"></div>
     <div class="rollers"><i class="roller"></i><i class="roller rv"></i></div></div>
-  <div class="slot"></div><div class="tape"></div>
+  <div class="base"></div><div class="slot"></div><div class="tape"></div>
 </div>
 <div class="feed" id="feed"></div>
 <div class="ctl">
@@ -130,6 +131,7 @@ async function pump(){
   while(queue.length){await printOne(queue.shift())}
   press.classList.remove("run");busy=false;
 }
+function fsz(p,b){var n=p.length;if(b)return n<=9?34:n<=12?26:n<=16?21:n<=20?18:16;return n<=14?20:n<=20?17:15}
 async function printOne(e){
   var g=GIFTS[e.cadeau],dur=g.big?6000:3000;
   press.classList.add("run","stamp");son.frappe();
@@ -138,7 +140,7 @@ async function printOne(e){
   var tw=document.createElement("div");tw.className="tw";tw.style.setProperty("--d",dur+"ms");
   var ini=esc(e.pseudo.replace("@","").charAt(0).toUpperCase());
   var av='<div class="av" style="background:'+color(e.pseudo)+'">'+ini+'</div>';
-  tw.innerHTML='<div class="t'+(g.big?" big":"")+'">'+av+'<div class="tx"><div class="pseudo">'+esc(e.pseudo)+'</div><div class="gift">'+g.ico+" "+(g.big?"Grand ticket · ":"")+g.nom+'</div><div class="thx">'+(g.big?"Merci infiniment pour ce Donut !":"Merci pour ton cadeau !")+'</div></div><span class="no">n° '+String(count).padStart(4,"0")+'</span></div>';
+  tw.innerHTML='<div class="t'+(g.big?" big":"")+'">'+av+'<div class="tx"><div class="pseudo" style="font-size:'+fsz(e.pseudo,g.big)+'px">'+esc(e.pseudo)+'</div><div class="gift">'+g.ico+" "+(g.big?"Grand ticket · ":"")+g.nom+'</div><div class="thx">'+(g.big?"Merci infiniment pour ce Donut !":"Merci pour ton cadeau !")+'</div></div><span class="no">n° '+String(count).padStart(4,"0")+'</span></div>';
   var t=tw.firstChild;
   if(e.avatar){var im=new Image();im.alt="";im.referrerPolicy="no-referrer";im.onload=function(){var a=t.querySelector(".av");a.textContent="";a.appendChild(im)};im.src=e.avatar}
   feed.insertBefore(tw,feed.firstChild);
@@ -226,6 +228,7 @@ au.onclick=function(){
   var go=function(){if(queue.length<3)imprimer({pseudo:rnd(PSEUDOS),cadeau:rnd(["rose","rose","coeur","donut"]),quantite:Math.random()<.2?3:1})};
   go();timer=setInterval(go,4500)};
 if(location.search.indexOf("live")>-1)document.body.classList.add("live");
+if(/[?&]transparent/.test(location.search))document.documentElement.classList.add("transp");
 try{var es=new EventSource("events");es.onmessage=function(m){try{imprimer(JSON.parse(m.data))}catch(e){}}}catch(e){}
 function ajuster(){var s=Math.min(innerWidth/390,innerHeight/844);document.documentElement.style.setProperty("--s",s)}
 addEventListener("resize",ajuster);ajuster();
